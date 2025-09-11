@@ -54,10 +54,10 @@ const Page = async ({ params }: any) => {
 
   return (
     <>
-      <h1>hi helo blog page</h1>
+      <h1>hi hello blog page</h1>
       other components here
     </>
   );
-};
+};  
 
 export default Page;

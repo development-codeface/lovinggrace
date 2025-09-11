@@ -1,62 +1,56 @@
-
 import Loading from "@/app/loading";
-import SectionWrapper from "@/components/SectionWrapper";
-import HeroSection from "@/components/blog/[blog_id]/HeroSection";
-import NavigationBtns from "@/components/blog/[blog_id]/NavigationBtns";
-import RecentBlogs from "@/components/blog/[blog_id]/RecentBlogs";
-import Layout from "@/components/layout";
 import { getPageContent } from "@/libs/contents/wordpress/data";
-import descriptionExtractor from "@/libs/hooks/descriptionExtractor";
-import main_padding from "@/styles/padding";
 import Link from "next/link";
+import Image from "next/image";
 
-
-
-
-
-
-const Page = async ({ params }: any) => {
+const Page = async () => {
   const blogs: BlogsType = await getPageContent("blogs");
-  const data = blogs.blogs.edges.find(
-    (item) => item.node.slug === params.blog_id
-  );
 
-  const index = blogs.blogs.edges.findIndex(
-    (item) => item.node.slug === params.blog_id
-  );
+  if (!blogs) return <Loading />;
 
-  const edges = blogs?.blogs?.edges || [];
-
-  const buttons = [
-    {
-      title: "Prev",
-      link: index > 0 ? `/blog/${edges[index - 1].node.slug}` : "",
-    },
-    {
-      title: "Next",
-      link: index < edges.length - 1 ? `/blog/${edges[index + 1].node.slug}` : "",
-    },
-  ];
-
-  let formattedDate = "";
-
-  if (data?.node?.date) {
-    const date = new Date(data.node.date);
-    if (!isNaN(date.getTime())) {
-      formattedDate = date.toLocaleString("en-US", {
-        month: "short",
-        day: "numeric",
-      });
-    }
-  }
-
-  if (!data) return <Loading />;
+  const edges = blogs.blogs.edges || [];
 
   return (
-    <>
-      <h1>hi helo blog page</h1>
-      other components here
-    </>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Latest Blogs</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {edges.map(({ node }) => {
+          const {
+            slug,
+            title,
+            date,
+            author,
+            acf: { bannerImage, content },
+          } = node;
+
+          return (
+            <Link
+              key={slug}
+              href={`/blogs/${slug}`}
+              className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition"
+            >
+              <div className="relative h-48 w-full">
+                <Image
+                  src={bannerImage.sourceUrl}
+                  alt={title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="p-4">
+                <h2 className="text-xl font-semibold mb-2">{title}</h2>
+                <p className="text-sm text-gray-600 mb-1">
+                  By {author.node.name} • {new Date(date).toLocaleDateString()}
+                </p>
+                <p className="text-gray-700 text-sm line-clamp-3">
+                  {content.replace(/<[^>]+>/g, "")}
+                </p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 

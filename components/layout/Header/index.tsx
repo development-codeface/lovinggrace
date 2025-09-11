@@ -105,7 +105,6 @@ const Header = ({
     {
       title: "Blog",
       link: "/blog",
-      subLinks: menuLinks?.blogs,
     },
     {
       title: "Contact Us",

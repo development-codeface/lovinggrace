@@ -79,9 +79,7 @@ if (data?.node?.date) {
         <RecentBlogs data={blogs} />
       </SectionWrapper>
 
-      {/* <NavigationBtns buttons={buttons} />
-
-      <h1>hi helo blog page</h1> */}
+      
     </>
   );
 };
