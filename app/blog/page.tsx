@@ -11,9 +11,9 @@ const Page = async () => {
   const edges = blogs.blogs.edges || [];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="xl:px-28 lg:px-24 sm:px-16 px-6 w-full flex flex-col mt-[100px] blog-details flex-1">
       <h1 className="text-3xl font-bold mb-6">Latest Blogs</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {edges.map(({ node }) => {
           const {
             slug,
@@ -26,7 +26,7 @@ const Page = async () => {
           return (
             <Link
               key={slug}
-              href={`/blogs/${slug}`}
+              href={`/blog/${slug}`}
               className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition"
             >
               <div className="relative h-48 w-full">
