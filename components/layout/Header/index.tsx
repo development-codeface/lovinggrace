@@ -104,7 +104,7 @@ const Header = ({
     },
     {
       title: "Blog",
-      link: "",
+      link: "/blog",
       subLinks: menuLinks?.blogs,
     },
     {
@@ -142,7 +142,7 @@ const Header = ({
               {item.subLinks ? (
                 <div className="relative z-0 flex flex-col items-center justify-center">
                   <span className="flex items-center justify-start gap-1">
-                    {item.title}
+                   <Link href={item.link}>{item.title}</Link>
                     <Image
                       src={arrowDown}
                       alt={""}

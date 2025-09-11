@@ -14,7 +14,7 @@ const page = async () => {
         title={data.page.acf.heroSection.tittle}
         description={data.page.acf.heroSection.description}
       />
-      <FaithAndTransformation data={data} />
+      {/* <FaithAndTransformation data={data} /> */}
       <Journey data={data} />
     </>
   );

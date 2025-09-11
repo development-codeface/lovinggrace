@@ -27,26 +27,33 @@ const page = async ({ params }: any) => {
     (item) => item.node.slug === params.blog_id,
   );
 
-  const buttons = [
-    {
-      title: "Prev",
-      link:
-        index === 0 ? "" : `/blog/${blogs.blogs.edges[index - 1].node.slug}`,
-    },
-    {
-      title: "Next",
-      link:
-        index === blogs.blogs.edges.length - 1
-          ? ""
-          : `/blog/${blogs.blogs.edges[index + 1].node.slug}`,
-    },
-  ];
+ const edges = blogs?.blogs?.edges || [];
 
+const buttons = [
+  {
+    title: "Prev",
+    link:
+      index > 0 ? `/blog/${edges[index - 1].node.slug}` : "",
+  },
+  {
+    title: "Next",
+    link:
+      index < edges.length - 1 ? `/blog/${edges[index + 1].node.slug}` : "",
+  },
+];
+
+let formattedDate = "";
+
+if (data?.node?.date) {
   const date = new Date(data.node.date);
-  const formattedDate = date.toLocaleString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
+  if (!isNaN(date.getTime())) {
+    formattedDate = date.toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+  }
+}
+
 
   if (!data) return <Loading />;
 
@@ -60,6 +67,7 @@ const page = async ({ params }: any) => {
         classBottom={`md:gap-20 gap-10 max-md:flex-col md:justify-between  ${main_padding.b}`}
         classTop="justify-start "
       >
+      
         <p
           data-aos="fade-up"
           data-aos-duration="700"
@@ -71,9 +79,13 @@ const page = async ({ params }: any) => {
         <RecentBlogs data={blogs} />
       </SectionWrapper>
 
-      <NavigationBtns buttons={buttons} />
+      {/* <NavigationBtns buttons={buttons} />
+
+      <h1>hi helo blog page</h1> */}
     </>
   );
 };
 
 export default page;
+
+
